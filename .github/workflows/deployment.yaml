@@ -32,6 +32,7 @@ jobs:
             type=semver,pattern={{major}}
       - uses: docker/build-push-action@v7
         with:
+          context: .
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{steps.meta.outputs.tags}}
