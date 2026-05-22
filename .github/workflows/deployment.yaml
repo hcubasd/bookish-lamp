@@ -1,0 +1,17 @@
+name: Deployment
+on:
+  push:
+    tags:
+      - "v*.*.*"
+jobs:
+  deploy:
+    uses: hcubasd/fuzzy-garbanzo/.github/workflows/fuzzy-garbanzo.yaml@v1.0.1
+    with:
+      registry: ghcr.io
+      repository: bookish-lamp
+    secrets:
+      username: ${{github.actor}}
+      password: ${{secrets.GITHUB_TOKEN}}
+    permissions:
+      contents: write
+      packages: write

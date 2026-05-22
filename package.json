@@ -1,0 +1,20 @@
+{
+	"name": "bookish-lamp",
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"test": "vitest",
+		"build": "vite build"
+	},
+	"devDependencies": {
+		"@tsconfig/vite-react": "^8.0.6",
+		"@vitejs/plugin-react": "^6.0.2",
+		"typescript": "^6.0.3",
+		"vite": "^8.0.14",
+		"vitest": "^4.1.7"
+	},
+	"dependencies": {
+		"react": "^19.2.6",
+		"react-dom": "^19.2.6"
+	}
+}

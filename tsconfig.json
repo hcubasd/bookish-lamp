@@ -1,0 +1,12 @@
+{
+	"extends": "@tsconfig/vite-react/tsconfig.json",
+	"compilerOptions": {
+		"preserveConstEnums": true,
+	},
+	"include": [
+		"src/**/*"
+	],
+	"exclude": [
+		"**/*.test.tsx"
+	]
+}
