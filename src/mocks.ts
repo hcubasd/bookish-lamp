@@ -1,13 +1,10 @@
-import type { Deal, User, Team, PipelineStage } from "./types"
+import type { Contact, Deal, Product, User, Team, PipelineStage } from "./types"
 
 const ts = (s: string) => s
 
-const teamComercial: Team = {
-  id: "team-001",
-  title: "Comercial",
-  created_at: ts("2025-01-10T08:00:00Z"),
-  updated_at: ts("2025-01-10T08:00:00Z"),
-}
+const teamComercial:    Team = { id: "team-001", title: "Comercial",       created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }
+const teamGrandesContas: Team = { id: "team-002", title: "Grandes Contas",  created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }
+const teamNovosNegocios: Team = { id: "team-003", title: "Novos Negócios",  created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }
 
 const ana: User = {
   id: "user-001",
@@ -24,7 +21,7 @@ const carlos: User = {
   full_name: "Carlos Mendes",
   email: "carlos.mendes@mlclogistica.com.br",
   phone: "+55 11 99876-5432",
-  team: teamComercial,
+  team: teamGrandesContas,
   created_at: ts("2025-01-10T08:00:00Z"),
   updated_at: ts("2025-01-10T08:00:00Z"),
 }
@@ -34,7 +31,7 @@ const lucas: User = {
   full_name: "Lucas Oliveira",
   email: "lucas.oliveira@mlclogistica.com.br",
   phone: "+55 11 97654-3210",
-  team: teamComercial,
+  team: teamNovosNegocios,
   created_at: ts("2025-01-10T08:00:00Z"),
   updated_at: ts("2025-01-10T08:00:00Z"),
 }
@@ -67,10 +64,49 @@ const stages = {
   d_proposta: stage("d-s3", "Proposta Enviada", 3, pipDistribuicao),
 }
 
+function product(id: string, title: string, price: number): Product {
+  return { id, title, description: null, price, created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }
+}
+
+const prods = {
+  ftl:          product("prod-001", "Frete Dedicado FTL",   40000),
+  crossdocking: product("prod-002", "Cross-Docking",        18000),
+  lastmile:     product("prod-003", "Last-Mile Urbano",      9500),
+  ltl:          product("prod-004", "Frete Fracionado LTL", 15000),
+  refrigerado:  product("prod-005", "Transporte Refrigerado", 25000),
+  estoque:      product("prod-006", "Gestão de Estoque",    12000),
+  armazgeral:   product("prod-007", "Armazenagem Geral",    20000),
+  distrib_b2b:  product("prod-008", "Distribuição B2B",     14000),
+}
+
+function contact(id: string, full_name: string, job_title: string): Contact {
+  return { id, full_name, job_title, emails: {}, phones: {}, social_profiles: {}, created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }
+}
+
+const contacts = {
+  rodrigo:  contact("c-001", "Rodrigo Alves",   "Diretor Logístico"),
+  fernanda: contact("c-002", "Fernanda Costa",  "Gerente de Suprimentos"),
+  paulo:    contact("c-003", "Paulo Souza",     "Coordenador de Operações"),
+  mariana:  contact("c-004", "Mariana Lima",    "Analista de Contratos"),
+  thiago:   contact("c-005", "Thiago Neves",    "Gerente Comercial"),
+  camila:   contact("c-006", "Camila Rocha",    "Diretora de Logística"),
+}
+
 const src = {
   indicacao:  { id: "src-001", title: "Indicação",        description: null, created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") },
   prospeccao: { id: "src-002", title: "Prospecção Ativa", description: null, created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") },
   site:       { id: "src-003", title: "Site",             description: null, created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") },
+}
+
+function campaign(id: string, title: string): { id: string; title: string; description: null; created_at: string; updated_at: string } {
+  return { id, title, description: null, created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }
+}
+
+const camps = {
+  grandes_contas: campaign("camp-001", "Q2 Grandes Contas 2025"),
+  expogestao:     campaign("camp-002", "Expogestão 2025"),
+  expologistica:  campaign("camp-003", "Expo Logística SP 2025"),
+  prospeccao_q4:  campaign("camp-004", "Prospecção Direta Q4 2025"),
 }
 
 export const mockDeals: Deal[] = [
@@ -83,7 +119,7 @@ export const mockDeals: Deal[] = [
     expected_close_date: ts("2025-06-30T00:00:00Z"),
     closed_at: ts("2025-06-20T14:22:00Z"),
     loss_reason: null,
-    campaign: null,
+    campaign: camps.expogestao,
     source: src.indicacao,
     owner: ana,
     stage: stages.t_ganho,
@@ -93,8 +129,8 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-001", title: "Siderurgia", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2025-01-15T08:00:00Z"), updated_at: ts("2025-03-01T08:00:00Z"),
     },
-    contacts: [],
-    products: [{ id: "prod-001", title: "Frete Dedicado FTL", description: null, price: 40000, created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
+    contacts: [contacts.rodrigo],
+    products: [prods.ftl],
     tasks: [],
     created_at: ts("2025-05-20T08:00:00Z"),
     updated_at: ts("2025-03-28T14:22:00Z"),
@@ -108,7 +144,7 @@ export const mockDeals: Deal[] = [
     expected_close_date: ts("2025-07-31T00:00:00Z"),
     closed_at: ts("2025-07-28T14:00:00Z"),
     loss_reason: null,
-    campaign: null,
+    campaign: camps.expogestao,
     source: src.prospeccao,
     owner: carlos,
     stage: stages.t_ganho,
@@ -118,8 +154,8 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-001", title: "Siderurgia", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2025-03-01T08:00:00Z"), updated_at: ts("2025-03-01T08:00:00Z"),
     },
-    contacts: [],
-    products: [],
+    contacts: [contacts.fernanda],
+    products: [prods.ftl, prods.ltl],
     tasks: [],
     created_at: ts("2025-06-10T08:00:00Z"),
     updated_at: ts("2025-06-10T08:00:00Z"),
@@ -143,8 +179,8 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-004", title: "Alimentos", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2025-02-20T08:00:00Z"), updated_at: ts("2025-04-25T08:00:00Z"),
     },
-    contacts: [],
-    products: [],
+    contacts: [contacts.paulo],
+    products: [prods.refrigerado],
     tasks: [],
     created_at: ts("2025-09-05T08:00:00Z"),
     updated_at: ts("2025-04-25T16:00:00Z"),
@@ -158,7 +194,7 @@ export const mockDeals: Deal[] = [
     expected_close_date: ts("2025-10-31T00:00:00Z"),
     closed_at: ts("2025-10-28T14:00:00Z"),
     loss_reason: null,
-    campaign: { id: "camp-001", title: "Q2 Grandes Contas 2025", description: null, created_at: ts("2025-02-01T08:00:00Z"), updated_at: ts("2025-02-01T08:00:00Z") },
+    campaign: camps.grandes_contas,
     source: src.prospeccao,
     owner: carlos,
     stage: stages.a_negoc,
@@ -168,8 +204,8 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-002", title: "Bebidas", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2025-02-10T08:00:00Z"), updated_at: ts("2025-04-01T08:00:00Z"),
     },
-    contacts: [],
-    products: [{ id: "prod-002", title: "Cross-Docking", description: null, price: 18000, created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
+    contacts: [contacts.fernanda],
+    products: [prods.crossdocking, prods.estoque],
     tasks: [],
     created_at: ts("2025-07-15T08:00:00Z"),
     updated_at: ts("2025-05-20T08:00:00Z"),
@@ -183,7 +219,7 @@ export const mockDeals: Deal[] = [
     expected_close_date: ts("2025-11-30T00:00:00Z"),
     closed_at: ts("2025-11-22T14:00:00Z"),
     loss_reason: null,
-    campaign: null,
+    campaign: camps.expologistica,
     source: src.prospeccao,
     owner: ana,
     stage: stages.a_proposta,
@@ -193,8 +229,8 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-003", title: "Varejo", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2025-05-01T08:00:00Z"), updated_at: ts("2025-05-15T08:00:00Z"),
     },
-    contacts: [],
-    products: [],
+    contacts: [contacts.paulo],
+    products: [prods.estoque, prods.armazgeral],
     tasks: [],
     created_at: ts("2025-11-10T08:00:00Z"),
     updated_at: ts("2025-05-15T08:00:00Z"),
@@ -218,8 +254,8 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-003", title: "Varejo", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2025-03-05T08:00:00Z"), updated_at: ts("2025-04-10T08:00:00Z"),
     },
-    contacts: [],
-    products: [{ id: "prod-003", title: "Last-Mile Urbano", description: null, price: 9500, created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
+    contacts: [contacts.mariana],
+    products: [prods.lastmile],
     tasks: [],
     created_at: ts("2025-08-10T08:00:00Z"),
     updated_at: ts("2025-05-05T08:00:00Z"),
@@ -244,7 +280,7 @@ export const mockDeals: Deal[] = [
       followers: [], contacts: [], created_at: ts("2025-05-01T08:00:00Z"), updated_at: ts("2025-05-01T08:00:00Z"),
     },
     contacts: [],
-    products: [],
+    products: [prods.distrib_b2b],
     tasks: [],
     created_at: ts("2026-02-14T08:00:00Z"),
     updated_at: ts("2026-02-14T08:00:00Z"),
@@ -258,7 +294,7 @@ export const mockDeals: Deal[] = [
     expected_close_date: ts("2025-12-31T00:00:00Z"),
     closed_at: ts("2025-12-10T14:00:00Z"),
     loss_reason: null,
-    campaign: null,
+    campaign: camps.prospeccao_q4,
     source: src.prospeccao,
     owner: lucas,
     stage: stages.d_qualif,
@@ -268,8 +304,8 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-006", title: "Cimento", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2025-09-01T08:00:00Z"), updated_at: ts("2025-09-01T08:00:00Z"),
     },
-    contacts: [],
-    products: [],
+    contacts: [contacts.thiago],
+    products: [prods.lastmile, prods.distrib_b2b],
     tasks: [],
     created_at: ts("2025-10-07T08:00:00Z"),
     updated_at: ts("2025-10-07T08:00:00Z"),
@@ -283,7 +319,7 @@ export const mockDeals: Deal[] = [
     expected_close_date: ts("2026-04-30T00:00:00Z"),
     closed_at: ts("2026-04-22T14:00:00Z"),
     loss_reason: null,
-    campaign: null,
+    campaign: camps.grandes_contas,
     source: src.indicacao,
     owner: ana,
     stage: stages.a_negoc,
@@ -293,8 +329,8 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-007", title: "Energia", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2025-11-01T08:00:00Z"), updated_at: ts("2025-11-01T08:00:00Z"),
     },
-    contacts: [],
-    products: [],
+    contacts: [contacts.thiago],
+    products: [prods.armazgeral],
     tasks: [],
     created_at: ts("2025-12-12T08:00:00Z"),
     updated_at: ts("2025-12-12T08:00:00Z"),
@@ -308,7 +344,7 @@ export const mockDeals: Deal[] = [
     expected_close_date: ts("2026-03-31T00:00:00Z"),
     closed_at: ts("2026-03-18T14:00:00Z"),
     loss_reason: null,
-    campaign: null,
+    campaign: camps.prospeccao_q4,
     source: src.prospeccao,
     owner: lucas,
     stage: stages.t_ganho,
@@ -318,8 +354,8 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-008", title: "Celulose", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2025-12-01T08:00:00Z"), updated_at: ts("2025-12-01T08:00:00Z"),
     },
-    contacts: [],
-    products: [],
+    contacts: [contacts.camila],
+    products: [prods.ftl, prods.ltl],
     tasks: [],
     created_at: ts("2026-01-20T08:00:00Z"),
     updated_at: ts("2026-01-20T08:00:00Z"),
@@ -333,7 +369,7 @@ export const mockDeals: Deal[] = [
     expected_close_date: ts("2026-05-31T00:00:00Z"),
     closed_at: null,
     loss_reason: null,
-    campaign: null,
+    campaign: camps.expologistica,
     source: src.site,
     owner: carlos,
     stage: stages.d_proposta,
@@ -343,11 +379,61 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-007", title: "Energia", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2026-02-01T08:00:00Z"), updated_at: ts("2026-02-01T08:00:00Z"),
     },
-    contacts: [],
-    products: [],
+    contacts: [contacts.mariana],
+    products: [prods.distrib_b2b],
     tasks: [],
     created_at: ts("2026-03-08T08:00:00Z"),
     updated_at: ts("2026-03-08T08:00:00Z"),
+  },
+  {
+    id: "deal-013",
+    title: "Armazenagem Automotiva – Stellantis",
+    status: "won",
+    amount: 130000,
+    rating: 3,
+    expected_close_date: ts("2026-03-31T00:00:00Z"),
+    closed_at: ts("2026-03-25T14:00:00Z"),
+    loss_reason: null,
+    campaign: camps.grandes_contas,
+    source: src.indicacao,
+    owner: ana,
+    stage: stages.a_negoc,
+    organization: {
+      id: "org-013", title: "Stellantis Brasil", description: null, website: "https://www.stellantis.com",
+      address: { city: "Betim", state: "MG" }, owner: ana,
+      industries: [{ id: "ind-009", title: "Automotivo", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
+      followers: [], contacts: [], created_at: ts("2026-01-10T08:00:00Z"), updated_at: ts("2026-01-10T08:00:00Z"),
+    },
+    contacts: [contacts.rodrigo],
+    products: [prods.armazgeral],
+    tasks: [],
+    created_at: ts("2026-01-15T08:00:00Z"),
+    updated_at: ts("2026-01-15T08:00:00Z"),
+  },
+  {
+    id: "deal-014",
+    title: "Distribuição Fracionada – Electrolux",
+    status: "won",
+    amount: 78000,
+    rating: 3,
+    expected_close_date: ts("2026-03-31T00:00:00Z"),
+    closed_at: ts("2026-03-28T14:00:00Z"),
+    loss_reason: null,
+    campaign: null,
+    source: src.prospeccao,
+    owner: lucas,
+    stage: stages.d_proposta,
+    organization: {
+      id: "org-014", title: "Electrolux do Brasil", description: null, website: "https://www.electrolux.com.br",
+      address: { city: "Curitiba", state: "PR" }, owner: lucas,
+      industries: [{ id: "ind-010", title: "Eletrodomésticos", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
+      followers: [], contacts: [], created_at: ts("2026-01-20T08:00:00Z"), updated_at: ts("2026-01-20T08:00:00Z"),
+    },
+    contacts: [contacts.mariana],
+    products: [prods.distrib_b2b, prods.lastmile],
+    tasks: [],
+    created_at: ts("2026-02-01T08:00:00Z"),
+    updated_at: ts("2026-02-01T08:00:00Z"),
   },
   {
     id: "deal-012",
@@ -368,8 +454,8 @@ export const mockDeals: Deal[] = [
       industries: [{ id: "ind-004", title: "Alimentos", created_at: ts("2025-01-10T08:00:00Z"), updated_at: ts("2025-01-10T08:00:00Z") }],
       followers: [], contacts: [], created_at: ts("2026-03-15T08:00:00Z"), updated_at: ts("2026-03-15T08:00:00Z"),
     },
-    contacts: [],
-    products: [],
+    contacts: [contacts.camila],
+    products: [prods.crossdocking, prods.armazgeral],
     tasks: [],
     created_at: ts("2026-04-15T08:00:00Z"),
     updated_at: ts("2026-04-15T08:00:00Z"),

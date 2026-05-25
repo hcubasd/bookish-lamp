@@ -1,3 +1,27 @@
+:root {
+  color-scheme: light dark;
+
+  --bg: white;
+  --fg: black;
+
+  /* one entry per nesting depth — all system bg for now */
+  --layer-0: var(--bg);
+  --layer-1: var(--fg);
+  --layer-2: var(--bg);
+  --layer-3: var(--bg);
+  --layer-4: var(--bg);
+  --layer-5: var(--bg);
+  --layer-6: var(--bg);
+
+  }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: black;
+    --fg: white;
+  }
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -10,20 +34,32 @@ html, body, #root {
   height: 100%;
 }
 
-#root {
-  --gap: 14px;
-
+body {
+  background: var(--bg);
+  color: var(--fg);
   padding: var(--gap);
+}
+
+#root div {
+  border-radius: var(--gap);
+}
+
+#root div:has(> span) {
+  padding: var(--gap);
+}
+
+#root {
+  border-radius: var(--gap);
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  background: white;
+  background: var(--layer-0);
 }
 
 .panel {
   flex: 1;
   min-height: 0;
-  background: #aaaaaa;
+  background: var(--layer-1);
 }
 
 /* ── top panel ─────────────────────────────────────────────────── */
@@ -34,6 +70,28 @@ html, body, #root {
   gap: var(--gap);
 }
 
+.panel-top-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.bar-section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  background: var(--layer-2);
+  overflow: hidden;
+}
+
+.bar-section > .panel-header {
+  background: var(--layer-3);
+}
+
 .bar-chart {
   flex: 1;
   min-height: 0;
@@ -41,7 +99,8 @@ html, body, #root {
   grid-template-columns: repeat(12, 1fr);
   align-items: end;
   gap: var(--gap);
-  background: #555555;
+  background: var(--layer-3);
+  overflow: hidden;
 }
 
 .bar-column {
@@ -49,11 +108,12 @@ html, body, #root {
   flex-direction: column;
   gap: var(--gap);
   overflow: hidden;
-  background: #2b2b2b;
+  background: var(--layer-4);
 }
 
 .bar-label {
-  background: black;
+  flex-shrink: 0;
+  background: var(--layer-5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,24 +122,34 @@ html, body, #root {
 }
 
 .bar-stack {
-  flex: 1;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
 }
 
 .bar-segment {
-  min-height: 0;
+  min-height: var(--gap);
+}
+
+#root .bar-column {
+  border-radius: var(--gap) var(--gap) 0 0;
+}
+
+#root .bar-segment,
+#root .bar-stack {
+  border-radius: 0;
 }
 
 .month-headers {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: var(--gap);
-  background: #555555;
+  background: var(--layer-2);
 }
 
 .month-headers > div {
-  background: black;
+  flex-shrink: 0;
+  background: var(--layer-3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,11 +161,12 @@ html, body, #root {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: var(--gap);
-  background: #555555;
+  background: var(--layer-2);
 }
 
 .data-table > div {
-  background: black;
+  flex-shrink: 0;
+  background: var(--layer-3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,6 +188,7 @@ html, body, #root {
   display: flex;
   flex-direction: row;
   gap: var(--gap);
+  background: var(--layer-2);
 }
 
 .pipeline-col {
@@ -126,29 +198,52 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  background: #555555;
+  background: var(--layer-3);
+  overflow: hidden;
 }
 
-/* ── shared black cell style ───────────────────────────────────── */
+.pipeline-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  background: var(--layer-4);
+}
 
-.panel-header,
-.pipeline-name,
-.aggregator-label,
-.stage-row {
-  background: black;
+/* ── layer-2 cells ─────────────────────────────────────────────── */
+
+.panel-header {
+  flex-shrink: 0;
+  background: var(--layer-2);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-}
-
-.panel-header,
-.pipeline-name {
   white-space: nowrap;
 }
 
-.aggregator-label,
-.stage-row {
+/* ── layer-4 cells ─────────────────────────────────────────────── */
+
+.pipeline-name {
+  flex-shrink: 0;
+  background: var(--layer-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ── layer-5 cells ─────────────────────────────────────────────── */
+
+.aggregator-label {
+  flex-shrink: 0;
+  background: var(--layer-5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   white-space: pre;
 }
 
@@ -160,10 +255,71 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  background: #2b2b2b;
+  background: var(--layer-5);
 }
+
+/* ── layer-6 cells ─────────────────────────────────────────────── */
 
 .stage-row {
   min-width: 0;
   flex-shrink: 0;
+  background: var(--layer-6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  white-space: pre;
+}
+
+/* ── aggregator selector ───────────────────────────────────────── */
+
+dialog.agg-selector {
+  font-size: inherit;
+  font-family: inherit;
+  padding: 1em;
+  margin: auto;
+}
+
+dialog.agg-selector[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+dialog.agg-selector select,
+dialog.agg-selector input {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+dialog.agg-selector label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+/* ── palette popover ───────────────────────────────────────────── */
+
+dialog.palette-popover {
+  font-size: inherit;
+  font-family: inherit;
+  min-width: 240px;
+  padding: 1em;
+  margin: auto;
+}
+
+dialog.palette-popover[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+dialog.palette-popover label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+}
+
+dialog.palette-popover input[type="range"] {
+  width: 100%;
 }
