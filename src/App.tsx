@@ -269,9 +269,10 @@ export default function App() {
   }, [autoReloadSeconds, modeIndex])
 
   const palettes = useMemo(() => {
+    if (pipelines.length === 0) return []
     try { return findPalettes(paletteL, pipelines.length) } catch { return findPalettes(75, pipelines.length) }
   }, [paletteL, pipelines.length])
-  const palette = palettes[paletteRotation] ?? palettes[0]
+  const palette = palettes[paletteRotation] ?? palettes[0] ?? []
 
   // single-element refs for panel headers, legend and palette popover
   const topHeaderDiv  = useRef<HTMLDivElement  | null>(null)
