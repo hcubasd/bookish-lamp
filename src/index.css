@@ -1,325 +1,63 @@
-:root {
-  color-scheme: light dark;
-
-  --bg: white;
-  --fg: black;
-
-  /* one entry per nesting depth — all system bg for now */
-  --layer-0: var(--bg);
-  --layer-1: var(--fg);
-  --layer-2: var(--bg);
-  --layer-3: var(--bg);
-  --layer-4: var(--bg);
-  --layer-5: var(--bg);
-  --layer-6: var(--bg);
-
-  }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: black;
-    --fg: white;
-  }
-}
-
 *, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: ui-monospace, monospace;
+	box-sizing: border-box;
 }
 
-html, body, #root {
-  width: 100%;
-  height: 100%;
+:root {
+	color-scheme: light dark;
 }
 
 body {
-  background: var(--bg);
-  color: var(--fg);
-  padding: var(--gap);
-}
-
-#root div {
-  border-radius: var(--gap);
-}
-
-#root div:has(> span) {
-  padding: var(--gap);
-}
-
-#root {
-  border-radius: var(--gap);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  background: var(--layer-0);
+	font-family: ui-monospace, monospace;
 }
 
 .panel {
-  flex: 1;
-  min-height: 0;
-  background: var(--layer-1);
+	display: flex;
+	gap: var(--gap);
+	min-width: 0;
+	min-height: 0;
 }
 
-/* ── top panel ─────────────────────────────────────────────────── */
-
-.panel-top {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
+.oriented,
+.disoriented {
+	display: flex;
 }
 
-.panel-top-body {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
+@media (orientation: portrait) {
+	.oriented { flex-direction: column; }
+	.disoriented { flex-direction: row; }
 }
 
-.bar-section {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  background: var(--layer-2);
-  overflow: hidden;
+@media (orientation: landscape) {
+	.oriented { flex-direction: row; }
+	.disoriented { flex-direction: column; }
 }
 
-.bar-section > .panel-header {
-  background: var(--layer-3);
+.label,
+.foreground {
+	min-width: 0;
+	min-height: 0;
+	background-color: Canvas;
+	color: CanvasText;
 }
 
-.bar-chart {
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  align-items: end;
-  gap: var(--gap);
-  background: var(--layer-3);
-  overflow: hidden;
+.label {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--gap);
 }
 
-.bar-column {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  overflow: hidden;
-  background: var(--layer-4);
+.foreground {
+	display: flex;
+	gap: var(--gap);
+	padding: var(--gap);
 }
 
-.bar-label {
-  flex-shrink: 0;
-  background: var(--layer-5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  white-space: nowrap;
+.swatch-fg {
+	background-color: CanvasText;
 }
 
-.bar-stack {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.bar-segment {
-  min-height: var(--gap);
-}
-
-#root .bar-column {
-  border-radius: var(--gap) var(--gap) 0 0;
-}
-
-#root .bar-segment,
-#root .bar-stack {
-  border-radius: 0;
-}
-
-.month-headers {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--gap);
-  background: var(--layer-2);
-}
-
-.month-headers > div {
-  flex-shrink: 0;
-  background: var(--layer-3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.data-table {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--gap);
-  background: var(--layer-2);
-}
-
-.data-table > div {
-  flex-shrink: 0;
-  background: var(--layer-3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-/* ── bottom panel ──────────────────────────────────────────────── */
-
-.pipeline-panel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-
-.pipeline-cols {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: row;
-  gap: var(--gap);
-  background: var(--layer-2);
-}
-
-.pipeline-col {
-  flex: 1;
-  min-width: 0;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  background: var(--layer-3);
-  overflow: hidden;
-}
-
-.pipeline-body {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  background: var(--layer-4);
-}
-
-/* ── layer-2 cells ─────────────────────────────────────────────── */
-
-.panel-header {
-  flex-shrink: 0;
-  background: var(--layer-2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-/* ── layer-4 cells ─────────────────────────────────────────────── */
-
-.pipeline-name {
-  flex-shrink: 0;
-  background: var(--layer-4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-/* ── layer-5 cells ─────────────────────────────────────────────── */
-
-.aggregator-label {
-  flex-shrink: 0;
-  background: var(--layer-5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  white-space: pre;
-}
-
-.stage-scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  scrollbar-gutter: stable;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-  background: var(--layer-5);
-}
-
-/* ── layer-6 cells ─────────────────────────────────────────────── */
-
-.stage-row {
-  min-width: 0;
-  flex-shrink: 0;
-  background: var(--layer-6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  white-space: pre;
-}
-
-/* ── aggregator selector ───────────────────────────────────────── */
-
-dialog.agg-selector {
-  font-size: inherit;
-  font-family: inherit;
-  padding: 1em;
-  margin: auto;
-}
-
-dialog.agg-selector[open] {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-dialog.agg-selector select,
-dialog.agg-selector input {
-  font-size: inherit;
-  font-family: inherit;
-}
-
-dialog.agg-selector label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25em;
-}
-
-/* ── palette popover ───────────────────────────────────────────── */
-
-dialog.palette-popover {
-  font-size: inherit;
-  font-family: inherit;
-  min-width: 240px;
-  padding: 1em;
-  margin: auto;
-}
-
-dialog.palette-popover[open] {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-}
-
-dialog.palette-popover label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25em;
-}
-
-dialog.palette-popover input[type="range"] {
-  width: 100%;
+.swatch-bg {
+	background-color: Canvas;
+	border: 1px solid CanvasText;
 }

@@ -1,20 +1,13 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App'
-import './index.css'
+import { StrictMode } from "react";
+import "./index.css";
+import { createRoot } from "react-dom/client";
+import App from "./App";
 
-const root = document.getElementById('root')!
-
-function updateGap() {
-  const gap = Math.log(Math.max(window.innerWidth, window.innerHeight))
-  root.style.setProperty('--gap', `${gap}px`)
-}
-
-updateGap()
-window.addEventListener('resize', updateGap)
+const root = document.getElementById("root");
+if (!root) throw new Error("Root element not found");
 
 createRoot(root).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-)
+	<StrictMode>
+		<App />
+	</StrictMode>,
+);
