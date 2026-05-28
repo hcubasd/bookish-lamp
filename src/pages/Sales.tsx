@@ -139,11 +139,11 @@ export default function Sales() {
 	useLayoutEffect(() => {
 		if (!rootRef.current || deals.length === 0) return;
 		if (squeezedModeRef.current === modeIndex) return;
-		squeezedModeRef.current = modeIndex;
 		try {
 			applyText(divFinder(rootRef.current));
+			squeezedModeRef.current = modeIndex;
 		} catch {
-			// squeezeText can fail if container dims aren't ready yet
+			// squeezeText can fail if container dims aren't ready yet; retry on next render
 		}
 	}, [deals, modeIndex]);
 
