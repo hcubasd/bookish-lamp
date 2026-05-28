@@ -20,7 +20,10 @@ function buildChildren(el: HTMLElement, labels: HTMLDivElement[]): PanelNode[] {
 export function divFinder(root: HTMLElement): FinderResult {
 	const labels: HTMLDivElement[] = [];
 	if (root instanceof HTMLDivElement && root.classList.contains("panel")) {
-		return { panels: [{ div: root, children: buildChildren(root, labels) }], labels };
+		return {
+			panels: [{ div: root, children: buildChildren(root, labels) }],
+			labels,
+		};
 	}
 	if (root instanceof HTMLDivElement && root.classList.contains("label")) {
 		labels.push(root);

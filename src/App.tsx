@@ -1,16 +1,17 @@
 import { useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Sales from "./pages/Sales";
 import Settings from "./pages/Settings";
 
 function updateGap() {
-	const gap = Math.log(screen.width * screen.height);
+	const gap = Math.round(Math.log(screen.width * screen.height) / 2);
 	document.documentElement.style.setProperty("--gap", `${gap}px`);
 }
 
+updateGap();
+
 export default function App() {
 	useEffect(() => {
-		updateGap();
 		window.addEventListener("resize", updateGap);
 		return () => window.removeEventListener("resize", updateGap);
 	}, []);
@@ -18,7 +19,8 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/" element={<Sales />} />
+				<Route path="/" element={<Navigate to="/sales" replace />} />
+				<Route path="/sales" element={<Sales />} />
 				<Route path="/settings" element={<Settings />} />
 			</Routes>
 		</BrowserRouter>

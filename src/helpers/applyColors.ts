@@ -3,10 +3,14 @@ import type { FinderResult, PanelNode } from "./divFinder";
 
 function treeDepth(nodes: PanelNode[]): number {
 	if (nodes.length === 0) return 0;
-	return 1 + Math.max(...nodes.map(n => treeDepth(n.children)));
+	return 1 + Math.max(...nodes.map((n) => treeDepth(n.children)));
 }
 
-function colorTree(nodes: PanelNode[], depth: number, grays: [number, number, number][]): void {
+function colorTree(
+	nodes: PanelNode[],
+	depth: number,
+	grays: [number, number, number][],
+): void {
 	for (const node of nodes) {
 		const [r, g, b] = grays[depth - 1];
 		node.div.style.backgroundColor = `rgb(${r},${g},${b})`;

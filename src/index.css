@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
 	box-sizing: border-box;
 }
 
@@ -23,21 +25,29 @@ body {
 }
 
 @media (orientation: portrait) {
-	.oriented { flex-direction: column; }
-	.disoriented { flex-direction: row; }
+	.oriented {
+		flex-direction: column;
+	}
+	.disoriented {
+		flex-direction: row;
+	}
 }
 
 @media (orientation: landscape) {
-	.oriented { flex-direction: row; }
-	.disoriented { flex-direction: column; }
+	.oriented {
+		flex-direction: row;
+	}
+	.disoriented {
+		flex-direction: column;
+	}
 }
 
 .label,
-.foreground {
+.front-panel {
 	min-width: 0;
 	min-height: 0;
-	background-color: Canvas;
-	color: CanvasText;
+	background-color: light-dark(white, black);
+	color: light-dark(black, white);
 }
 
 .label {
@@ -47,17 +57,17 @@ body {
 	padding: var(--gap);
 }
 
-.foreground {
+.front-panel {
 	display: flex;
 	gap: var(--gap);
 	padding: var(--gap);
 }
 
 .swatch-fg {
-	background-color: CanvasText;
+	background-color: light-dark(black, white);
 }
 
 .swatch-bg {
-	background-color: Canvas;
-	border: 1px solid CanvasText;
+	background-color: light-dark(white, black);
+	border: 1px solid light-dark(black, white);
 }

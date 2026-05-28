@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { divFinder } from "../helpers/divFinder";
 import { applyColors, getLightness } from "../helpers/applyColors";
 import { applyText } from "../helpers/applyText";
 import { setupPaletteControls } from "../helpers/paletteControls";
 
 export default function Settings() {
+	const navigate = useNavigate();
 	const rootRef = useRef<HTMLDivElement>(null);
 	const variationSliderRef = useRef<HTMLInputElement>(null);
 	const colorRowRef = useRef<HTMLDivElement>(null);
@@ -22,8 +24,13 @@ export default function Settings() {
 
 		let paletteReapply: (() => void) | undefined;
 		if (variationSliderRef.current && colorRowRef.current) {
-			const colorDivs = Array.from(colorRowRef.current.children) as HTMLDivElement[];
-			const { cleanup, reapply } = setupPaletteControls(variationSliderRef.current, colorDivs);
+			const colorDivs = Array.from(
+				colorRowRef.current.children,
+			) as HTMLDivElement[];
+			const { cleanup, reapply } = setupPaletteControls(
+				variationSliderRef.current,
+				colorDivs,
+			);
 			paletteReapply = reapply;
 			cleanups.push(cleanup);
 		}
@@ -51,11 +58,13 @@ export default function Settings() {
 			const stored = parseInt(localStorage.getItem("automation") ?? "0", 10);
 			const initial = Number.isFinite(stored) && stored >= 0 ? stored : 0;
 			slider.value = String(initial);
-			if (automationLabelRef.current) automationLabelRef.current.textContent = `${initial}s`;
+			if (automationLabelRef.current)
+				automationLabelRef.current.textContent = `${initial}s`;
 			const onAutomation = () => {
 				const val = parseInt(slider.value, 10);
 				localStorage.setItem("automation", String(val));
-				if (automationLabelRef.current) automationLabelRef.current.textContent = `${val}s`;
+				if (automationLabelRef.current)
+					automationLabelRef.current.textContent = `${val}s`;
 			};
 			slider.addEventListener("input", onAutomation);
 			cleanups.push(() => slider.removeEventListener("input", onAutomation));
@@ -69,14 +78,52 @@ export default function Settings() {
 		return () => {
 			mq.removeEventListener("change", onTheme);
 			window.removeEventListener("resize", onResize);
-			cleanups.forEach(c => c());
+			cleanups.forEach((c) => {
+				c();
+			});
 		};
 	}, []);
 
 	return (
-		<div ref={rootRef} className="panel" style={{ flexDirection: "column", height: "100%" }}>
+		<div
+			ref={rootRef}
+			className="panel"
+			style={{ flexDirection: "column", height: "100%" }}
+		>
 			<div className="label">
-				<span>Configurações</span>
+				<span>
+					<button
+						onClick={() => navigate("/sales")}
+						type="button"
+						style={{
+							display: "inline",
+							background: "none",
+							border: "none",
+							padding: 0,
+							font: "inherit",
+							color: "inherit",
+							cursor: "pointer",
+						}}
+					>
+						{"<"}
+					</button>{" "}
+					<span>Configurações</span>{" "}
+					<button
+						onClick={() => navigate("/sales")}
+						type="button"
+						style={{
+							display: "inline",
+							background: "none",
+							border: "none",
+							padding: 0,
+							font: "inherit",
+							color: "inherit",
+							cursor: "pointer",
+						}}
+					>
+						{">"}
+					</button>
+				</span>
 			</div>
 			<div className="panel oriented" style={{ flex: 1 }}>
 				<div className="panel" style={{ flex: 1, flexDirection: "column" }}>
@@ -84,32 +131,62 @@ export default function Settings() {
 						<span>Cores</span>
 					</div>
 					<div className="panel" style={{ flex: 1 }}>
-						<div className="panel" style={{ flex: 1, alignSelf: "stretch", flexDirection: "column" }}>
+						<div
+							className="panel"
+							style={{ flex: 1, alignSelf: "stretch", flexDirection: "column" }}
+						>
 							<div className="label">
 								<span>Variação</span>
 							</div>
-							<div className="panel" style={{ flex: 1, flexDirection: "column" }}>
-								<div ref={colorRowRef} className="foreground" style={{ flex: 1 }}>
+							<div
+								className="panel"
+								style={{ flex: 1, flexDirection: "column" }}
+							>
+								<div
+									ref={colorRowRef}
+									className="front-panel"
+									style={{ flex: 1 }}
+								>
 									<div style={{ flex: 1, alignSelf: "stretch" }} />
 									<div style={{ flex: 1, alignSelf: "stretch" }} />
 									<div style={{ flex: 1, alignSelf: "stretch" }} />
 								</div>
-								<div className="foreground">
-									<input ref={variationSliderRef} type="range" style={{ width: "100%" }} />
+								<div className="front-panel">
+									<input
+										ref={variationSliderRef}
+										type="range"
+										style={{ width: "100%" }}
+									/>
 								</div>
 							</div>
 						</div>
-						<div className="panel" style={{ flex: 1, alignSelf: "stretch", flexDirection: "column" }}>
+						<div
+							className="panel"
+							style={{ flex: 1, alignSelf: "stretch", flexDirection: "column" }}
+						>
 							<div className="label">
 								<span>Luminosidade</span>
 							</div>
-							<div className="panel" style={{ flex: 1, flexDirection: "column" }}>
-								<div className="foreground" style={{ flex: 1 }}>
-									<div className="swatch-fg" style={{ flex: 1, alignSelf: "stretch" }} />
-									<div className="swatch-bg" style={{ flex: 1, alignSelf: "stretch" }} />
+							<div
+								className="panel"
+								style={{ flex: 1, flexDirection: "column" }}
+							>
+								<div className="front-panel" style={{ flex: 1 }}>
+									<div
+										className="swatch-fg"
+										style={{ flex: 1, alignSelf: "stretch" }}
+									/>
+									<div
+										className="swatch-bg"
+										style={{ flex: 1, alignSelf: "stretch" }}
+									/>
 								</div>
-								<div className="foreground">
-									<input ref={luminositySliderRef} type="range" style={{ width: "100%" }} />
+								<div className="front-panel">
+									<input
+										ref={luminositySliderRef}
+										type="range"
+										style={{ width: "100%" }}
+									/>
 								</div>
 							</div>
 						</div>
@@ -120,12 +197,19 @@ export default function Settings() {
 						<span>Automação</span>
 					</div>
 					<div className="panel" style={{ flex: 1 }}>
-						<div className="panel" style={{ flex: 1, alignSelf: "stretch", flexDirection: "column" }}>
+						<div
+							className="panel"
+							style={{ flex: 1, alignSelf: "stretch", flexDirection: "column" }}
+						>
 							<div className="label" style={{ flex: 1 }}>
 								<span ref={automationLabelRef}>0s</span>
 							</div>
-							<div className="foreground">
-								<input ref={automationSliderRef} type="range" style={{ width: "100%" }} />
+							<div className="front-panel">
+								<input
+									ref={automationSliderRef}
+									type="range"
+									style={{ width: "100%" }}
+								/>
 							</div>
 						</div>
 					</div>
