@@ -24,7 +24,7 @@ export function formatTooltip(obj: Record<string, unknown>): string {
 
 function openForPipeline(deals: Deal[], pipelineId: string): Deal[] {
 	return deals.filter(
-		(d) => d.status === "open" && d.stage.pipeline.id === pipelineId,
+		(d) => d.status === "ongoing" && d.stage.pipeline.id === pipelineId,
 	);
 }
 
