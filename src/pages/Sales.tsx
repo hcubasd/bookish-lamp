@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { findPalettes } from "miniature-waffle";
 import { divFinder } from "../helpers/divFinder";
@@ -134,20 +134,24 @@ export default function Sales() {
 		return () => mq.removeEventListener("change", onTheme);
 	}, [modeIndex, deals]);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: modeIndex triggers retext when rows change
-	useEffect(() => {
+	// biome-ignore lint/correctness/useExhaustiveDependencies: fires once per aggregator change after DOM settles
+	useLayoutEffect(() => {
 		if (!rootRef.current || deals.length === 0) return;
 		try {
 			applyText(divFinder(rootRef.current));
 		} catch {
 			// squeezeText can fail if container dims aren't ready yet
 		}
-	}, [deals, modeIndex]);
+	}, [modeIndex]);
 
 	useEffect(() => {
 		const onResize = () => {
 			if (!rootRef.current) return;
-			applyText(divFinder(rootRef.current));
+			try {
+				applyText(divFinder(rootRef.current));
+			} catch {
+				// ignore
+			}
 		};
 		window.addEventListener("resize", onResize);
 		return () => window.removeEventListener("resize", onResize);
@@ -377,17 +381,15 @@ export default function Sales() {
 							const [r, g, b] = palette[pi];
 							const rows = rowsPerPipeline[pi];
 							const total = pipelineTotals[pi];
-							const maxTitleLen = Math.min(
-								30,
-								Math.max(
-									modeLabel.length,
-									...rows.map((row) => row.title.length),
-								),
-							);
+							const MAX_KEY_LEN = 22;
 							const truncate = (s: string) =>
-								s.length > maxTitleLen
-									? `${s.slice(0, maxTitleLen - 1)}…`
+								s.length > MAX_KEY_LEN
+									? `${s.slice(0, MAX_KEY_LEN - 1)}…`
 									: s;
+							const maxTitleLen = Math.max(
+								modeLabel.length,
+								...rows.map((row) => Math.min(row.title.length, MAX_KEY_LEN)),
+							);
 							const maxValLen = Math.max(
 								BRL.format(total).length,
 								...rows.map((row) => BRL.format(row.amount).length),
@@ -416,6 +418,7 @@ export default function Sales() {
 											className="panel"
 											style={{
 												flex: 1,
+												minHeight: 0,
 												flexDirection: "column",
 												overflowY: "auto",
 												scrollbarGutter: "stable",
