@@ -407,7 +407,7 @@ export const mockDeals: Deal[] = [
 	{
 		id: "deal-006",
 		title: "Distribuição Last-Mile – Magazine Luiza",
-		status: "open",
+		status: "ongoing",
 		amount: 95000,
 		rating: 3,
 		expected_close_date: ts("2025-07-15T00:00:00Z"),
@@ -446,7 +446,7 @@ export const mockDeals: Deal[] = [
 	{
 		id: "deal-007",
 		title: "Entregas B2B – Leroy Merlin",
-		status: "open",
+		status: "ongoing",
 		amount: null,
 		rating: null,
 		expected_close_date: null,
@@ -602,7 +602,7 @@ export const mockDeals: Deal[] = [
 	{
 		id: "deal-011",
 		title: "Distribuição Regional – Cosan",
-		status: "open",
+		status: "ongoing",
 		amount: 55000,
 		rating: 2,
 		expected_close_date: ts("2026-05-31T00:00:00Z"),

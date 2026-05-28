@@ -125,7 +125,7 @@ export interface Deal {
 	amount: number | null;
 	expected_close_date: string | null;
 	rating: number | null;
-	status: "won" | "lost" | "open";
+	status: "won" | "lost" | "ongoing";
 	closed_at: string | null;
 	contacts: Contact[];
 	products: Product[];

@@ -168,7 +168,7 @@ export default function Sales() {
 	const { fn: rowFn, label: modeLabel } = ROW_MODES[modeIndex];
 	const pipelineTotals = pipelines.map((p) =>
 		deals
-			.filter((d) => d.status === "open" && d.stage.pipeline.id === p.id)
+			.filter((d) => d.status === "ongoing" && d.stage.pipeline.id === p.id)
 			.reduce((s, d) => s + (d.amount ?? 0), 0),
 	);
 	const rowsPerPipeline = pipelines.map((p) => rowFn(deals, p.id));
