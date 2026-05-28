@@ -137,7 +137,11 @@ export default function Sales() {
 	// biome-ignore lint/correctness/useExhaustiveDependencies: modeIndex triggers retext when rows change
 	useEffect(() => {
 		if (!rootRef.current || deals.length === 0) return;
-		applyText(divFinder(rootRef.current));
+		try {
+			applyText(divFinder(rootRef.current));
+		} catch {
+			// squeezeText can fail if container dims aren't ready yet
+		}
 	}, [deals, modeIndex]);
 
 	useEffect(() => {
@@ -373,10 +377,17 @@ export default function Sales() {
 							const [r, g, b] = palette[pi];
 							const rows = rowsPerPipeline[pi];
 							const total = pipelineTotals[pi];
-							const maxTitleLen = Math.max(
-								modeLabel.length,
-								...rows.map((row) => row.title.length),
+							const maxTitleLen = Math.min(
+								30,
+								Math.max(
+									modeLabel.length,
+									...rows.map((row) => row.title.length),
+								),
 							);
+							const truncate = (s: string) =>
+								s.length > maxTitleLen
+									? `${s.slice(0, maxTitleLen - 1)}…`
+									: s;
 							const maxValLen = Math.max(
 								BRL.format(total).length,
 								...rows.map((row) => BRL.format(row.amount).length),
@@ -417,7 +428,7 @@ export default function Sales() {
 													style={{ whiteSpace: "pre" }}
 													title={formatTooltip(row.source)}
 												>
-													<span>{`${row.title.padStart(maxTitleLen)} ${BRL.format(row.amount).padEnd(maxValLen)}`}</span>
+													<span>{`${truncate(row.title).padStart(maxTitleLen)} ${BRL.format(row.amount).padEnd(maxValLen)}`}</span>
 												</div>
 											))}
 										</div>
