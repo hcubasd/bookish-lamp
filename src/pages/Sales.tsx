@@ -428,7 +428,7 @@ export default function Sales() {
 												<div
 													key={row.id}
 													className="label"
-													style={{ whiteSpace: "pre" }}
+							style={{ whiteSpace: "pre", flexShrink: 0 }}
 													title={formatTooltip(row.source)}
 												>
 													<span>{`${truncate(row.title).padStart(maxTitleLen)} ${BRL.format(row.amount).padEnd(maxValLen)}`}</span>
