@@ -90,6 +90,7 @@ const months = computeMonths();
 export default function Sales() {
 	const navigate = useNavigate();
 	const rootRef = useRef<HTMLDivElement>(null);
+	const squeezedModeRef = useRef<number>(-1);
 	const [deals, setDeals] = useState<Deal[]>([]);
 	const [modeIndex, setModeIndex] = useState(() => {
 		const v = Number(localStorage.getItem("modeIndex") ?? "0");
@@ -134,15 +135,17 @@ export default function Sales() {
 		return () => mq.removeEventListener("change", onTheme);
 	}, [modeIndex, deals]);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: fires once per aggregator change after DOM settles
+	// biome-ignore lint/correctness/useExhaustiveDependencies: squeezes once per mode after data is available
 	useLayoutEffect(() => {
 		if (!rootRef.current || deals.length === 0) return;
+		if (squeezedModeRef.current === modeIndex) return;
+		squeezedModeRef.current = modeIndex;
 		try {
 			applyText(divFinder(rootRef.current));
 		} catch {
 			// squeezeText can fail if container dims aren't ready yet
 		}
-	}, [modeIndex]);
+	}, [deals, modeIndex]);
 
 	useEffect(() => {
 		const onResize = () => {
