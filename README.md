@@ -22,7 +22,7 @@ All settings are persisted to `localStorage`.
 In development, mock deals from `src/mocks.ts` are used. In production, data is fetched from:
 
 ```
-GET https://api.dashboard.mlclogistica.app/deals
+GET https://dashboard-api.mlclogistica.app/deals
 ```
 
 The app refetches live data every `max(60, automation)` seconds and re-renders automatically.

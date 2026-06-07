@@ -4,5 +4,5 @@
 		"preserveConstEnums": true
 	},
 	"include": ["src/**/*"],
-	"exclude": ["**/*.test.ts", "**/*.test.tsx", "src/temp/**"]
+	"exclude": ["**/*.test.ts", "**/*.test.tsx"]
 }
