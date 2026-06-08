@@ -1,13 +1,13 @@
 .bg {
-  display: flex;
-  gap: 1px;
-  min-width: 0;
+	display: flex;
+	gap: 1px;
+	min-width: 0;
 }
 
 .fg {
-  font-family: system-ui sans-serif;
+	font-family: system-ui sans-serif;
 }
 
 .cell {
-  font-size: var(--font-size);
+	font-size: var(--font-size);
 }

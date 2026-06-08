@@ -1,10 +1,10 @@
 import type {
 	Contact,
 	Deal,
-	Product,
-	User,
-	Team,
 	PipelineStage,
+	Product,
+	Team,
+	User,
 } from "./types";
 
 const ts = (s: string) => s;
