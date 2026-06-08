@@ -1,52 +1,36 @@
-import { matchColors } from "miniature-waffle";
 import { colorBg, squeezeFg } from "psychic-potato";
 import { useEffect } from "react";
 import Label from "./Label";
+import synchronizeSales from "../helpers/salesSynchronizer";
 
 export default function Sales() {
 	useEffect(() => {
 		const salesRoot = document.getElementById("sales-root");
+
 		if (salesRoot instanceof HTMLDivElement) {
 			colorBg(salesRoot, { startL: 75, endL: 100 });
 		} else {
-			throw new Error("No sales root div element found");
+			throw new Error('Sales root is not an instace of HTML div')
 		}
 
 		function onResize() {
 			if (salesRoot instanceof HTMLDivElement) {
 				const fontSize = squeezeFg(salesRoot);
 				salesRoot.style.setProperty("--font-size", `${fontSize}px`);
+				const h2 = salesRoot.querySelector('h2');
+				if (!h2) throw new Error('No h2 element found in sales root')
+				const h2Margin = getComputedStyle(h2).marginBlockStart;
+				if (!h2Margin) throw new Error('No h2 margin found');
+				salesRoot.style.setProperty('--h2-margin', h2Margin);
 			} else {
-				throw new Error("No sales root div element found");
+				throw new Error('Sales root is not an instace of HTML div')
 			}
 		}
 
 		onResize();
-
 		window.addEventListener("resize", onResize);
 
-		const color = matchColors(1, 75)[Math.floor(Math.random() * 256)][0];
-		const colorString = `rgb(${color.r}, ${color.g}, ${color.b})`;
-
-		const pipelineHistory = document.getElementById("pipeline-history");
-		if (!pipelineHistory) throw new Error("No pipeline history element found");
-		pipelineHistory.style.color = colorString;
-
-		const pipelineLegend = document.getElementById("pipeline-legend");
-		if (!pipelineLegend) throw new Error("No pipeline legend element found");
-		pipelineLegend.style.color = colorString;
-
-		const pipelineBars = document.getElementsByClassName("pipeline-bar");
-		if (!pipelineBars) throw new Error("No pipeline bar found");
-		for (const pipelineBar of pipelineBars) {
-			if (pipelineBar instanceof HTMLElement) {
-				pipelineBar.style.backgroundColor = colorString;
-			}
-		}
-
-		const pipelineHeader = document.getElementById("pipeline-header");
-		if (!pipelineHeader) throw new Error("No pipeline header element found");
-		pipelineHeader.style.color = colorString;
+		synchronizeSales();
 	}, []);
 	return (
 		<div
@@ -271,9 +255,13 @@ export default function Sales() {
 					</div>
 				</div>
 				<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
-					<Label style={{ width: "100%" }}>
-						<h2>{"Em andamento"}</h2>
-					</Label>
+					<div className='bg' style={{ justifyContent: 'center', alignItems: 'center' }}>
+						<div className='fg' style={{ display: 'flex', gap: 'var(--h2-margin, 0)' }}>
+							<button style={{ fontSize: 'inherit' }}>Anterior</button>
+							<h2>Em andamento</h2>
+							<button style={{ fontSize: 'inherit' }}>Próximo</button>
+						</div>
+					</div>
 					<div className="bg" style={{ flex: 1 }}>
 						<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
 							<Label id="pipeline-header">
