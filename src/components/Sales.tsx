@@ -11,6 +11,8 @@ import HistorySection from "./HistorySection";
 import Label from "./Label";
 import OpenSection from "./OpenSection";
 
+const lightness = 75;
+
 const BRL = new Intl.NumberFormat("pt-BR", {
 	style: "currency",
 	currency: "BRL",
@@ -40,7 +42,7 @@ export default function Sales() {
 	const pipelines = useMemo(() => extractPipelines(deals), [deals]);
 	const palette = useMemo(() => {
 		if (pipelines.length === 0) return [];
-		const palettes = matchColors(pipelines.length, 75);
+		const palettes = matchColors(pipelines.length, lightness);
 		return palettes[Math.floor(Math.random() * palettes.length)] ?? [];
 	}, [pipelines.length]);
 	const pipelineColors = useMemo(
@@ -69,16 +71,16 @@ export default function Sales() {
 		[deals, openModeIndex, pipelineColors, pipelines],
 	);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: openModeIndex and pipelines.length are intentional triggers
+	// biome-ignore lint/correctness/useExhaustiveDependencies: these are intentional triggers, not values read inside the effect
 	useEffect(() => {
 		const salesRoot = document.getElementById("sales-root");
 
 		if (salesRoot instanceof HTMLDivElement) {
-			colorBg(salesRoot, { startL: 75, endL: 100 });
+			colorBg(salesRoot, { startL: lightness, endL: 100 });
 		} else {
 			throw new Error("Sales root is not an instace of HTML div");
 		}
-	}, [openModeIndex, pipelines.length]);
+	}, [openModeIndex, pipelines.length, deals]);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: pipelines.length is an intentional trigger
 	useEffect(() => {
