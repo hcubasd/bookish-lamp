@@ -28,16 +28,24 @@ function toCssColor(
 export default function Sales() {
 	const [openModeIndex, setOpenModeIndex] = useState(0);
 	const [deals, setDeals] = useState<Deal[]>([]);
+	const [isPlaying, setIsPlaying] = useState(false);
 	const months = useMemo(() => getRollingMonths(), []);
 
 	useEffect(() => {
 		getDeals().then(setDeals);
 		const id = setInterval(() => {
 			getDeals().then(setDeals);
-			setOpenModeIndex((current) => (current + 1) % OPEN_MODES.length);
 		}, 60_000);
 		return () => clearInterval(id);
 	}, []);
+
+	useEffect(() => {
+		if (!isPlaying) return;
+		const id = setInterval(() => {
+			setOpenModeIndex((current) => (current + 1) % OPEN_MODES.length);
+		}, 60_000);
+		return () => clearInterval(id);
+	}, [isPlaying]);
 
 	const pipelines = useMemo(() => extractPipelines(deals), [deals]);
 	const palette = useMemo(() => {
@@ -149,9 +157,9 @@ export default function Sales() {
 				/>
 				<OpenSection
 					columns={openPanel.columns}
-					onNextMode={() =>
-						setOpenModeIndex((current) => (current + 1) % OPEN_MODES.length)
-					}
+					isPlaying={isPlaying}
+					onPlay={() => setIsPlaying(true)}
+					onPause={() => setIsPlaying(false)}
 					onPreviousMode={() =>
 						setOpenModeIndex(
 							(current) =>

@@ -1,8 +1,12 @@
 export default function OpenModeHeader({
-	onNext,
+	isPlaying,
+	onPlay,
+	onPause,
 	onPrevious,
 }: {
-	onNext: () => void;
+	isPlaying: boolean;
+	onPlay: () => void;
+	onPause: () => void;
 	onPrevious: () => void;
 }) {
 	return (
@@ -26,8 +30,12 @@ export default function OpenModeHeader({
 					{"◀"}
 				</button>
 				<h2>Em andamento</h2>
-				<button type="button" style={{ fontSize: "inherit" }} onClick={onNext}>
-					{"▶"}
+				<button
+					type="button"
+					style={{ fontSize: "inherit" }}
+					onClick={isPlaying ? onPause : onPlay}
+				>
+					{isPlaying ? "■" : "▶"}
 				</button>
 			</div>
 		</div>

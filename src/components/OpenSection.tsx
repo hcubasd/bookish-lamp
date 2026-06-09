@@ -3,7 +3,9 @@ import OpenPipelineColumn from "./OpenPipelineColumn";
 
 export default function OpenSection({
 	columns,
-	onNextMode,
+	isPlaying,
+	onPlay,
+	onPause,
 	onPreviousMode,
 	rowHeader,
 }: {
@@ -14,7 +16,9 @@ export default function OpenSection({
 		title: string;
 		total: string;
 	}>;
-	onNextMode: () => void;
+	isPlaying: boolean;
+	onPlay: () => void;
+	onPause: () => void;
 	onPreviousMode: () => void;
 	rowHeader: string;
 }) {
@@ -23,7 +27,12 @@ export default function OpenSection({
 			className="bg"
 			style={{ flex: 1, flexDirection: "column", minHeight: 0 }}
 		>
-			<OpenModeHeader onNext={onNextMode} onPrevious={onPreviousMode} />
+			<OpenModeHeader
+				isPlaying={isPlaying}
+				onPlay={onPlay}
+				onPause={onPause}
+				onPrevious={onPreviousMode}
+			/>
 			<div
 				className="bg"
 				style={{ flex: 1, flexDirection: "column", minHeight: 0 }}
