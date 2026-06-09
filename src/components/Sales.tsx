@@ -26,9 +26,16 @@ function toCssColor(
 }
 
 export default function Sales() {
-	const [openModeIndex, setOpenModeIndex] = useState(0);
+	const [openModeIndex, setOpenModeIndex] = useState(() => {
+		const saved = parseInt(localStorage.getItem("openModeIndex") ?? "", 10);
+		return Number.isFinite(saved) && saved >= 0 && saved < OPEN_MODES.length
+			? saved
+			: 0;
+	});
 	const [deals, setDeals] = useState<Deal[]>([]);
-	const [isPlaying, setIsPlaying] = useState(false);
+	const [isPlaying, setIsPlaying] = useState(
+		() => localStorage.getItem("isPlaying") === "true",
+	);
 	const months = useMemo(() => getRollingMonths(), []);
 
 	useEffect(() => {
@@ -45,6 +52,14 @@ export default function Sales() {
 			setOpenModeIndex((current) => (current + 1) % OPEN_MODES.length);
 		}, 60_000);
 		return () => clearInterval(id);
+	}, [isPlaying]);
+
+	useEffect(() => {
+		localStorage.setItem("openModeIndex", String(openModeIndex));
+	}, [openModeIndex]);
+
+	useEffect(() => {
+		localStorage.setItem("isPlaying", String(isPlaying));
 	}, [isPlaying]);
 
 	const pipelines = useMemo(() => extractPipelines(deals), [deals]);
