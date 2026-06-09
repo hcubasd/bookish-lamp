@@ -1,5 +1,3 @@
-import Label from "./Label";
-
 export default function AggregationRow({
 	title,
 	value,
@@ -9,19 +7,39 @@ export default function AggregationRow({
 }) {
 	return (
 		<div className="bg">
-			<div className="bg" style={{ flex: 1 }}>
-				<div
+			<div
+				className="bg"
+				style={{
+					flex: 1,
+					justifyContent: "flex-start",
+					overflowX: "auto",
+				}}
+			>
+				<span
 					className="cell"
 					style={{
-						flex: 1,
-						overflowX: "auto",
-						minWidth: 0,
+						whiteSpace: "nowrap",
 					}}
 				>
 					{title}
+				</span>
+			</div>
+			<div
+				className="bg"
+				style={{
+					flex: 1,
+					justifyContent: "flex-end",
+				}}
+			>
+				<div
+					className="cell"
+					style={{
+						whiteSpace: "nowrap",
+					}}
+				>
+					{value}
 				</div>
 			</div>
-			<Label style={{ flex: 1 }}>{value}</Label>
 		</div>
 	);
 }

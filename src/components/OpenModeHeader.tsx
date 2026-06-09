@@ -1,4 +1,10 @@
-export default function OpenModeHeader() {
+export default function OpenModeHeader({
+	onNext,
+	onPrevious,
+}: {
+	onNext: () => void;
+	onPrevious: () => void;
+}) {
 	return (
 		<div
 			className="bg"
@@ -12,11 +18,11 @@ export default function OpenModeHeader() {
 					alignItems: "center",
 				}}
 			>
-				<button type="button" style={{ fontSize: "inherit" }}>
+				<button type="button" style={{ fontSize: "inherit" }} onClick={onPrevious}>
 					Anterior
 				</button>
 				<h2>Em andamento</h2>
-				<button type="button" style={{ fontSize: "inherit" }}>
+				<button type="button" style={{ fontSize: "inherit" }} onClick={onNext}>
 					Próximo
 				</button>
 			</div>

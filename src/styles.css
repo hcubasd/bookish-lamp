@@ -9,5 +9,6 @@
 }
 
 .cell {
+	font-family: system-ui sans-serif;
 	font-size: var(--font-size);
 }

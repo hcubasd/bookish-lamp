@@ -2,26 +2,36 @@ import OpenModeHeader from "./OpenModeHeader";
 import OpenPipelineColumn from "./OpenPipelineColumn";
 
 export default function OpenSection({
-	pipelineTitle,
+	columns,
+	onNextMode,
+	onPreviousMode,
 	rowHeader,
-	total,
-	rows,
 }: {
-	pipelineTitle: string;
+	columns: Array<{
+		color: string;
+		id: string;
+		rows: Array<{ id: string; title: string; value: string }>;
+		title: string;
+		total: string;
+	}>;
+	onNextMode: () => void;
+	onPreviousMode: () => void;
 	rowHeader: string;
-	total: string;
-	rows: Array<{ title: string; value: string }>;
 }) {
 	return (
 		<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
-			<OpenModeHeader />
+			<OpenModeHeader onNext={onNextMode} onPrevious={onPreviousMode} />
 			<div className="bg" style={{ flex: 1 }}>
-				<OpenPipelineColumn
-					title={pipelineTitle}
-					header={rowHeader}
-					total={total}
-					rows={rows}
-				/>
+				{columns.map((column) => (
+					<OpenPipelineColumn
+						key={column.id}
+						color={column.color}
+						title={column.title}
+						header={rowHeader}
+						total={column.total}
+						rows={column.rows}
+					/>
+				))}
 			</div>
 		</div>
 	);

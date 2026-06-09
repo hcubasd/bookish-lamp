@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import type { HistoryMonthSegment } from "./HistoryMonthColumn";
 import type { RollingMonth } from "../helpers/getRollingMonths";
 import Label from "./Label";
@@ -31,16 +30,20 @@ export default function HistorySection({
 			<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
 				<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
 					<Label>
-						<span id="pipeline-legend">
-							{legendItems.map((item, index) => (
-								<Fragment key={item.id}>
-									<span style={{ color: item.color }}>
-										{item.title}
-									</span>
-									{index < legendItems.length - 1 ? <span> </span> : null}
-								</Fragment>
+						<div
+							id="pipeline-legend"
+							style={{
+								display: "flex",
+								gap: "var(--h3-margin, 0)",
+								alignItems: "center",
+							}}
+						>
+							{legendItems.map((item) => (
+								<h3 key={item.id} style={{ color: item.color }}>
+									{item.title}
+								</h3>
 							))}
-						</span>
+						</div>
 					</Label>
 					<div className="bg" style={{ flex: 1 }}>
 						{months.map((month, index) => (

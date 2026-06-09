@@ -1,10 +1,10 @@
 import { matchColors } from "miniature-waffle";
 import { colorBg, squeezeFg } from "psychic-potato";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import extractPipelines from "../helpers/extractPipelines";
+import getOpenPanelModel, { OPEN_MODES } from "../helpers/getOpenPanelModel";
 import getRollingMonths from "../helpers/getRollingMonths";
 import getWonHistory from "../helpers/getWonHistory";
-import synchronizeSales from "../helpers/salesSynchronizer";
 import { mockDeals } from "../mocks";
 import HistorySection from "./HistorySection";
 import Label from "./Label";
@@ -23,6 +23,7 @@ function toCssColor(
 }
 
 export default function Sales() {
+	const [openModeIndex, setOpenModeIndex] = useState(0);
 	const months = useMemo(() => getRollingMonths(), []);
 	const pipelines = useMemo(() => extractPipelines(mockDeals), []);
 	const palette = useMemo(() => {
@@ -44,6 +45,17 @@ export default function Sales() {
 		() => getWonHistory(mockDeals, months, pipelines),
 		[months, pipelines],
 	);
+	const openPanel = useMemo(
+		() =>
+			getOpenPanelModel({
+				deals: mockDeals,
+				formatAmount: BRL.format,
+				modeIndex: openModeIndex,
+				pipelineColors,
+				pipelines,
+			}),
+		[openModeIndex, pipelineColors, pipelines],
+	);
 
 	useEffect(() => {
 		const salesRoot = document.getElementById("sales-root");
@@ -53,25 +65,32 @@ export default function Sales() {
 		} else {
 			throw new Error("Sales root is not an instace of HTML div");
 		}
+	}, [openModeIndex]);
 
-		function onResize() {
-			if (salesRoot instanceof HTMLDivElement) {
-				const fontSize = squeezeFg(salesRoot);
-				salesRoot.style.setProperty("--font-size", `${fontSize}px`);
-				const h2 = salesRoot.querySelector("h2");
-				if (!h2) throw new Error("No h2 element found in sales root");
-				const h2Margin = getComputedStyle(h2).marginBlockStart;
-				if (!h2Margin) throw new Error("No h2 margin found");
-				salesRoot.style.setProperty("--h2-margin", h2Margin);
-			} else {
-				throw new Error("Sales root is not an instace of HTML div");
-			}
+	useEffect(() => {
+		const salesRoot = document.getElementById("sales-root");
+
+		if (!(salesRoot instanceof HTMLDivElement)) {
+			throw new Error("Sales root is not an instace of HTML div");
 		}
 
+		function onResize() {
+			const fontSize = squeezeFg(salesRoot);
+			salesRoot.style.setProperty("--font-size", `${fontSize}px`);
+			const h2 = salesRoot.querySelector("h2");
+			if (!h2) throw new Error("No h2 element found in sales root");
+			const h2Margin = getComputedStyle(h2).marginBlockStart;
+			if (!h2Margin) throw new Error("No h2 margin found");
+			salesRoot.style.setProperty("--h2-margin", h2Margin);
+			const h3 = salesRoot.querySelector("h3");
+			if (!h3) throw new Error("No h3 element found in sales root");
+			const h3Margin = getComputedStyle(h3).marginBlockStart;
+			if (!h3Margin) throw new Error("No h3 margin found");
+			salesRoot.style.setProperty("--h3-margin", h3Margin);
+		}
 		onResize();
 		window.addEventListener("resize", onResize);
-
-		synchronizeSales();
+		return () => window.removeEventListener("resize", onResize);
 	}, []);
 	return (
 		<div
@@ -107,10 +126,16 @@ export default function Sales() {
 					}))}
 				/>
 				<OpenSection
-					pipelineTitle="Pipeline"
-					rowHeader="Stage"
-					total="0"
-					rows={[{ title: "Awareness", value: "0" }]}
+					columns={openPanel.columns}
+					onNextMode={() =>
+						setOpenModeIndex((current) => (current + 1) % OPEN_MODES.length)
+					}
+					onPreviousMode={() =>
+						setOpenModeIndex(
+							(current) => (current - 1 + OPEN_MODES.length) % OPEN_MODES.length,
+						)
+					}
+					rowHeader={openPanel.rowHeader}
 				/>
 			</div>
 		</div>

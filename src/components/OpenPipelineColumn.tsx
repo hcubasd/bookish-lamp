@@ -2,25 +2,38 @@ import AggregationRow from "./AggregationRow";
 import Label from "./Label";
 
 export default function OpenPipelineColumn({
+	color,
 	title,
 	header,
 	total,
 	rows,
 }: {
+	color: string;
 	title: string;
 	header: string;
 	total: string;
-	rows: Array<{ title: string; value: string }>;
+	rows: Array<{ id: string; title: string; value: string }>;
 }) {
 	return (
 		<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
-			<Label id="pipeline-header">
-				<h3>{title}</h3>
+			<Label>
+				<h3 style={{ color }}>{title}</h3>
 			</Label>
 			<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
 				<div className="bg">
-					<Label style={{ flex: 1 }}>{header}</Label>
-					<Label style={{ flex: 1 }}>{total}</Label>
+					<div
+						className="bg"
+						style={{
+							flex: 1,
+							justifyContent: "flex-start",
+							overflowX: "auto",
+						}}
+					>
+						<span className="cell" style={{ whiteSpace: "nowrap" }}>
+							{header}
+						</span>
+					</div>
+					<Label style={{ flex: 1, justifyContent: "flex-end" }}>{total}</Label>
 				</div>
 				<div
 					className="bg"
@@ -31,9 +44,9 @@ export default function OpenPipelineColumn({
 						minHeight: 0,
 					}}
 				>
-					{rows.map((row, index) => (
+					{rows.map((row) => (
 						<AggregationRow
-							key={`${row.title}-${index}`}
+							key={row.id}
 							title={row.title}
 							value={row.value}
 						/>
