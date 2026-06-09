@@ -8,7 +8,8 @@ export interface AggregationRowData {
 
 function openForPipeline(deals: Deal[], pipelineId: string): Deal[] {
 	return deals.filter(
-		(deal) => deal.status === "ongoing" && deal.stage.pipeline.id === pipelineId,
+		(deal) =>
+			deal.status === "ongoing" && deal.stage.pipeline.id === pipelineId,
 	);
 }
 

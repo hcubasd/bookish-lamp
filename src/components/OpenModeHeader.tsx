@@ -18,12 +18,16 @@ export default function OpenModeHeader({
 					alignItems: "center",
 				}}
 			>
-				<button type="button" style={{ fontSize: "inherit" }} onClick={onPrevious}>
-					Anterior
+				<button
+					type="button"
+					style={{ fontSize: "inherit" }}
+					onClick={onPrevious}
+				>
+					{"◀"}
 				</button>
 				<h2>Em andamento</h2>
 				<button type="button" style={{ fontSize: "inherit" }} onClick={onNext}>
-					Próximo
+					{"▶"}
 				</button>
 			</div>
 		</div>

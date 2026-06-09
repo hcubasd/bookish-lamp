@@ -12,7 +12,8 @@ export default function HistoryPipelineTotalsRow({
 	return (
 		<div id={id} className="bg">
 			{values.map((value, index) => (
-				<Label key={`${value}-${index}`} style={{ flex: 1 }}>
+				// biome-ignore lint/suspicious/noArrayIndexKey: month order is fixed
+				<Label key={index} style={{ flex: 1 }}>
 					<span style={{ color }}>{value}</span>
 				</Label>
 			))}

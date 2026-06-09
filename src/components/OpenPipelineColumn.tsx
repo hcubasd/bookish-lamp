@@ -29,11 +29,13 @@ export default function OpenPipelineColumn({
 							overflowX: "auto",
 						}}
 					>
-						<span className="cell" style={{ whiteSpace: "nowrap" }}>
+						<b className="cell" style={{ whiteSpace: "nowrap" }}>
 							{header}
-						</span>
+						</b>
 					</div>
-					<Label style={{ flex: 1, justifyContent: "flex-end" }}>{total}</Label>
+					<Label style={{ flex: 1, justifyContent: "flex-end" }}>
+						<b>{total}</b>
+					</Label>
 				</div>
 				<div
 					className="bg"
@@ -45,11 +47,7 @@ export default function OpenPipelineColumn({
 					}}
 				>
 					{rows.map((row) => (
-						<AggregationRow
-							key={row.id}
-							title={row.title}
-							value={row.value}
-						/>
+						<AggregationRow key={row.id} title={row.title} value={row.value} />
 					))}
 				</div>
 			</div>

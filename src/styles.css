@@ -12,3 +12,13 @@
 	font-family: system-ui sans-serif;
 	font-size: var(--font-size);
 }
+
+.oriented {
+	display: flex;
+}
+
+@media (orientation: portrait) {
+	.oriented {
+		flex-direction: column;
+	}
+}

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import getOpenPanelModel from "./getOpenPanelModel";
 import { mockDeals } from "../mocks";
 import extractPipelines from "./extractPipelines";
+import getOpenPanelModel from "./getOpenPanelModel";
 
 describe("getOpenPanelModel", () => {
 	it("builds one column per pipeline for the selected mode", () => {

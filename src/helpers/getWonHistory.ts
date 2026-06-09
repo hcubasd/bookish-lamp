@@ -46,7 +46,9 @@ export default function getWonHistory(
 			continue;
 		}
 
-		const monthIndex = monthIndexByKey.get(getMonthKey(new Date(deal.closed_at)));
+		const monthIndex = monthIndexByKey.get(
+			getMonthKey(new Date(deal.closed_at)),
+		);
 		const pipelineIndex = pipelineIndexById.get(deal.stage.pipeline.id);
 
 		if (monthIndex === undefined || pipelineIndex === undefined) {
@@ -54,7 +56,10 @@ export default function getWonHistory(
 		}
 
 		monthTotals[monthIndex] += deal.amount;
-		pipelineTotalsByMonth[pipelineIndex]![monthIndex]! += deal.amount;
+		const pipelineRow = pipelineTotalsByMonth[pipelineIndex];
+		if (pipelineRow !== undefined) {
+			pipelineRow[monthIndex] += deal.amount;
+		}
 	}
 
 	return {
@@ -63,14 +68,14 @@ export default function getWonHistory(
 			return pipelines
 				.map((pipeline, pipelineIndex) => ({
 					pipelineId: pipeline.id,
-					value: pipelineTotalsByMonth[pipelineIndex]![monthIndex]!,
+					value: pipelineTotalsByMonth[pipelineIndex]?.[monthIndex] ?? 0,
 				}))
 				.filter((segment) => segment.value > 0);
 		}),
 		monthTotals,
 		pipelineRows: pipelines.map((pipeline, pipelineIndex) => ({
 			pipeline,
-			totals: pipelineTotalsByMonth[pipelineIndex]!,
+			totals: pipelineTotalsByMonth[pipelineIndex] ?? [],
 		})),
 	};
 }

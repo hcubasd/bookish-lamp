@@ -1,9 +1,9 @@
-import type { HistoryMonthSegment } from "./HistoryMonthColumn";
 import type { RollingMonth } from "../helpers/getRollingMonths";
-import Label from "./Label";
+import type { HistoryMonthSegment } from "./HistoryMonthColumn";
 import HistoryMonthColumn from "./HistoryMonthColumn";
 import HistoryMonthLabelsRow from "./HistoryMonthLabelsRow";
 import HistoryPipelineTotalsRow from "./HistoryPipelineTotalsRow";
+import Label from "./Label";
 
 export default function HistorySection({
 	legendItems,
@@ -58,7 +58,11 @@ export default function HistorySection({
 					</div>
 				</div>
 				<HistoryMonthLabelsRow months={months} />
-				<div id="pipeline-history" className="bg" style={{ flexDirection: "column" }}>
+				<div
+					id="pipeline-history"
+					className="bg"
+					style={{ flexDirection: "column" }}
+				>
 					{pipelineRows.map((row) => (
 						<HistoryPipelineTotalsRow
 							key={row.id}

@@ -1,5 +1,6 @@
 import type { Deal, Pipeline } from "../types";
 import {
+	type AggregationRowData,
 	rowsByCampaign,
 	rowsByContact,
 	rowsByIndustry,
@@ -9,7 +10,6 @@ import {
 	rowsBySource,
 	rowsByStage,
 	rowsByTeam,
-	type AggregationRowData,
 } from "./aggregations";
 
 export interface OpenMode {
@@ -55,7 +55,8 @@ export default function getOpenPanelModel({
 	pipelineColors: Map<string, string>;
 	pipelines: Pipeline[];
 }): OpenPanelModel {
-	const mode = OPEN_MODES[modeIndex] ?? OPEN_MODES[0]!;
+	const mode = OPEN_MODES[modeIndex] ?? OPEN_MODES[0];
+	if (!mode) throw new Error("OPEN_MODES is empty");
 
 	return {
 		rowHeader: mode.header,
