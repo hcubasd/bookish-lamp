@@ -13,7 +13,7 @@ export function formatTooltip(obj: Record<string, unknown>): string {
 	return Object.entries(obj)
 		.filter(([k, v]) => {
 			if (TOOLTIP_SKIP.has(k) || k.endsWith("_id")) return false;
-			if (v === null || v === undefined) return false;
+			if (v === null || v === undefined || v === "") return false;
 			if (Array.isArray(v)) return v.length > 0 && typeof v[0] !== "object";
 			if (typeof v === "object") return false;
 			return true;
