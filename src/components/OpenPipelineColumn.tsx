@@ -12,7 +12,7 @@ export default function OpenPipelineColumn({
 	title: string;
 	header: string;
 	total: string;
-	rows: Array<{ id: string; title: string; value: string }>;
+	rows: Array<{ id: string; title: string; value: string; tooltip: string }>;
 }) {
 	return (
 		<div
@@ -53,7 +53,12 @@ export default function OpenPipelineColumn({
 					}}
 				>
 					{rows.map((row) => (
-						<AggregationRow key={row.id} title={row.title} value={row.value} />
+						<AggregationRow
+							key={row.id}
+							title={row.title}
+							value={row.value}
+							tooltip={row.tooltip}
+						/>
 					))}
 				</div>
 			</div>

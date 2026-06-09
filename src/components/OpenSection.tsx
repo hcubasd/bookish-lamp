@@ -10,7 +10,7 @@ export default function OpenSection({
 	columns: Array<{
 		color: string;
 		id: string;
-		rows: Array<{ id: string; title: string; value: string }>;
+		rows: Array<{ id: string; title: string; value: string; tooltip: string }>;
 		title: string;
 		total: string;
 	}>;
@@ -24,7 +24,10 @@ export default function OpenSection({
 			style={{ flex: 1, flexDirection: "column", minHeight: 0 }}
 		>
 			<OpenModeHeader onNext={onNextMode} onPrevious={onPreviousMode} />
-			<div className="bg" style={{ flex: 1, flexDirection: 'column', minHeight: 0 }}>
+			<div
+				className="bg"
+				style={{ flex: 1, flexDirection: "column", minHeight: 0 }}
+			>
 				{columns.map((column) => (
 					<OpenPipelineColumn
 						key={column.id}

@@ -20,7 +20,7 @@ export interface OpenMode {
 export interface OpenPipelineColumnModel {
 	color: string;
 	id: string;
-	rows: Array<{ id: string; title: string; value: string }>;
+	rows: Array<{ id: string; title: string; value: string; tooltip: string }>;
 	title: string;
 	total: string;
 }
@@ -76,6 +76,7 @@ export default function getOpenPanelModel({
 					id: row.id,
 					title: row.title,
 					value: formatAmount(row.amount),
+					tooltip: row.tooltip,
 				})),
 				title: pipeline.title,
 				total: formatAmount(totalAmount),

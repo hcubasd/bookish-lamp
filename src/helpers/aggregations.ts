@@ -4,6 +4,24 @@ export interface AggregationRowData {
 	id: string;
 	title: string;
 	amount: number;
+	tooltip: string;
+}
+
+const TOOLTIP_SKIP = new Set(["id", "created_at", "updated_at"]);
+
+export function formatTooltip(obj: Record<string, unknown>): string {
+	return Object.entries(obj)
+		.filter(([k, v]) => {
+			if (TOOLTIP_SKIP.has(k) || k.endsWith("_id")) return false;
+			if (v === null || v === undefined) return false;
+			if (Array.isArray(v)) return v.length > 0 && typeof v[0] !== "object";
+			if (typeof v === "object") return false;
+			return true;
+		})
+		.map(([k, v]) =>
+			Array.isArray(v) ? `${k}: ${(v as unknown[]).join(", ")}` : `${k}: ${v}`,
+		)
+		.join("\n");
 }
 
 function openForPipeline(deals: Deal[], pipelineId: string): Deal[] {
@@ -39,6 +57,7 @@ export function rowsByStage(
 		amount: openDeals
 			.filter((deal) => deal.stage.id === stage.id)
 			.reduce((sum, deal) => sum + (deal.amount ?? 0), 0),
+		tooltip: formatTooltip(stage as unknown as Record<string, unknown>),
 	}));
 }
 
@@ -53,6 +72,7 @@ function rowsFromMap<T extends { id: string }>(
 			id: `${pipelineId}:${item.id}`,
 			title: getTitle(item),
 			amount: getAmount(item),
+			tooltip: formatTooltip(item as unknown as Record<string, unknown>),
 		}))
 		.sort((left, right) => right.amount - left.amount);
 }
