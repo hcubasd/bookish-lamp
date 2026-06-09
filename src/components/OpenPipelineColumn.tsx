@@ -15,11 +15,17 @@ export default function OpenPipelineColumn({
 	rows: Array<{ id: string; title: string; value: string }>;
 }) {
 	return (
-		<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
+		<div
+			className="bg"
+			style={{ flex: 1, flexDirection: "column", overflow: "hidden" }}
+		>
 			<Label>
 				<h3 style={{ color }}>{title}</h3>
 			</Label>
-			<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
+			<div
+				className="bg"
+				style={{ flex: 1, flexDirection: "column", overflow: "hidden" }}
+			>
 				<div className="bg">
 					<div
 						className="bg"

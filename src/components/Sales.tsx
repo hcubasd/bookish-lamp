@@ -114,12 +114,13 @@ export default function Sales() {
 				padding: "1px",
 				flexDirection: "column",
 				height: "calc(100% - 2px)",
+				overflow: "hidden",
 			}}
 		>
 			<Label style={{ width: "100%" }}>
 				<h1>Vendas</h1>
 			</Label>
-			<div className="bg oriented" style={{ flex: 1 }}>
+			<div className="bg oriented" style={{ flex: 1, minHeight: 0 }}>
 				<HistorySection
 					legendItems={pipelines.map((pipeline) => ({
 						color: pipelineColors.get(pipeline.id) ?? "inherit",

@@ -14,11 +14,11 @@
 }
 
 .oriented {
-	display: flex;
+	flex-direction: column;
 }
 
-@media (orientation: portrait) {
+@media (orientation: landscape) {
 	.oriented {
-		flex-direction: column;
+		flex-direction: row;
 	}
 }

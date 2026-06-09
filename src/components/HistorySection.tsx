@@ -23,12 +23,21 @@ export default function HistorySection({
 	pipelineRows: Array<{ color: string; id: string; values: string[] }>;
 }) {
 	return (
-		<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
+		<div
+			className="bg"
+			style={{ flex: 1, flexDirection: "column", minHeight: 0 }}
+		>
 			<Label style={{ width: "100%" }}>
 				<h2>Histórico</h2>
 			</Label>
-			<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
-				<div className="bg" style={{ flex: 1, flexDirection: "column" }}>
+			<div
+				className="bg"
+				style={{ flex: 1, flexDirection: "column", minHeight: 0 }}
+			>
+				<div
+					className="bg"
+					style={{ flex: 1, flexDirection: "column", minHeight: 0 }}
+				>
 					<Label>
 						<div
 							id="pipeline-legend"
