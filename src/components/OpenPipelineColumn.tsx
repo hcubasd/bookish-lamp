@@ -60,6 +60,11 @@ export default function OpenPipelineColumn({
 							tooltip={row.tooltip}
 						/>
 					))}
+					{/* keeps colorBg maxDepth stable when rows is empty */}
+					<div className="bg" style={{ display: "none" }}>
+						<div className="bg" />
+						<div className="bg" />
+					</div>
 				</div>
 			</div>
 		</div>
