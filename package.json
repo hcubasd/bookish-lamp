@@ -1,0 +1,28 @@
+{
+	"name": "bookish-lamp",
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite --host",
+		"build": "vite build",
+		"preview": "vite preview --host",
+		"test": "vitest"
+	},
+	"devDependencies": {
+		"@tsconfig/vite-react": "^8.0.6",
+		"@types/react": "^19.2.15",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^6.0.2",
+		"jsdom": "^29.1.1",
+		"typescript": "^6.0.3",
+		"vite": "^8.0.14",
+		"vitest": "^4.1.7"
+	},
+	"dependencies": {
+		"miniature-waffle": "^0.1.7",
+		"psychic-potato": "^0.1.8",
+		"react": "^19.2.6",
+		"react-dom": "^19.2.6",
+		"react-router-dom": "^7.15.1"
+	}
+}
