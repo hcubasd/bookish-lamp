@@ -9,6 +9,7 @@ import {
 	rowsByProduct,
 	rowsBySource,
 	rowsByStage,
+	rowsByTask,
 	rowsByTeam,
 } from "./aggregations";
 
@@ -40,6 +41,7 @@ export const OPEN_MODES: OpenMode[] = [
 	{ rows: rowsBySource, header: "Origem" },
 	{ rows: rowsByTeam, header: "Time" },
 	{ rows: rowsByIndustry, header: "Segmento" },
+	{ rows: rowsByTask, header: "Tarefa" },
 ];
 
 export default function getOpenPanelModel({

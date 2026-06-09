@@ -1,4 +1,4 @@
-import type { Deal, Industry, PipelineStage } from "../types";
+import type { Deal, Industry, PipelineStage, Task } from "../types";
 
 export interface AggregationRowData {
 	id: string;
@@ -271,5 +271,28 @@ export function rowsByIndustry(
 					deal.organization?.industries.some((item) => item.id === industry.id),
 				)
 				.reduce((sum, deal) => sum + (deal.amount ?? 0), 0),
+	);
+}
+
+export function rowsByTask(
+	deals: Deal[],
+	pipelineId: string,
+): AggregationRowData[] {
+	const openDeals = openForPipeline(deals, pipelineId);
+	const tasks = new Map<string, Task>();
+	const taskAmount = new Map<string, number>();
+
+	for (const deal of openDeals) {
+		for (const task of deal.tasks) {
+			tasks.set(task.id, task);
+			taskAmount.set(task.id, deal.amount ?? 0);
+		}
+	}
+
+	return rowsFromMap(
+		tasks,
+		pipelineId,
+		(task) => task.title,
+		(task) => taskAmount.get(task.id) ?? 0,
 	);
 }
