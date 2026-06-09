@@ -24,7 +24,7 @@ export default function OpenSection({
 			style={{ flex: 1, flexDirection: "column", minHeight: 0 }}
 		>
 			<OpenModeHeader onNext={onNextMode} onPrevious={onPreviousMode} />
-			<div className="bg" style={{ flex: 1, minHeight: 0 }}>
+			<div className="bg" style={{ flex: 1, flexDirection: 'column', minHeight: 0 }}>
 				{columns.map((column) => (
 					<OpenPipelineColumn
 						key={column.id}

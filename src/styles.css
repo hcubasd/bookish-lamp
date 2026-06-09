@@ -17,8 +17,16 @@
 	flex-direction: column;
 }
 
+.disoriented {
+	flex-direction: row;
+}
+
 @media (orientation: landscape) {
 	.oriented {
 		flex-direction: row;
+	}
+
+	.disoriented {
+		flex-direction: column;
 	}
 }
