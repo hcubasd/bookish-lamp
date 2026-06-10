@@ -10,7 +10,7 @@ export default function HistoryMonthLabelsRow({
 		<div className="bg">
 			{months.map((month) => (
 				<Label key={month.key} style={{ flex: 1 }}>
-					<h3>{month.label}</h3>
+					<b>{month.label}</b>
 				</Label>
 			))}
 		</div>

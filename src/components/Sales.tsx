@@ -99,7 +99,7 @@ export default function Sales() {
 		const salesRoot = document.getElementById("sales-root");
 
 		if (salesRoot instanceof HTMLDivElement) {
-			colorBg(salesRoot, { startL: lightness, endL: 100 });
+			colorBg(salesRoot, { from: lightness / 100, to: 1 });
 		} else {
 			throw new Error("Sales root is not an instace of HTML div");
 		}
@@ -113,18 +113,20 @@ export default function Sales() {
 			throw new Error("Sales root is not an instace of HTML div");
 		}
 
+		const root = salesRoot;
+
 		function onResize() {
-			const fontSize = squeezeFg(salesRoot);
-			salesRoot.style.setProperty("--font-size", `${fontSize}px`);
-			const h2 = salesRoot.querySelector("h2");
+			const fontSize = squeezeFg(root, 0.8);
+			root.style.setProperty("--font-size", `${fontSize}px`);
+			const h2 = root.querySelector("h2");
 			if (h2) {
 				const h2Margin = getComputedStyle(h2).marginBlockStart;
-				if (h2Margin) salesRoot.style.setProperty("--h2-margin", h2Margin);
+				if (h2Margin) root.style.setProperty("--h2-margin", h2Margin);
 			}
-			const h3 = salesRoot.querySelector("h3");
+			const h3 = root.querySelector("h3");
 			if (h3) {
 				const h3Margin = getComputedStyle(h3).marginBlockStart;
-				if (h3Margin) salesRoot.style.setProperty("--h3-margin", h3Margin);
+				if (h3Margin) root.style.setProperty("--h3-margin", h3Margin);
 			}
 		}
 		onResize();
@@ -138,12 +140,13 @@ export default function Sales() {
 			style={{
 				flexDirection: "column",
 				overflow: "hidden",
+				height: '100%'
 			}}
 		>
 			<Label>
 				<h1>Vendas</h1>
 			</Label>
-			<div className="bg oriented" style={{ flex: 1, minHeight: 0 }}>
+			<div className="bg" style={{ flex: 1, flexDirection: 'column', minHeight: 0 }}>
 				<HistorySection
 					legendItems={pipelines.map((pipeline) => ({
 						color: pipelineColors.get(pipeline.id) ?? "inherit",

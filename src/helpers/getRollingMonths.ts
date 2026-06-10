@@ -7,8 +7,8 @@ export interface RollingMonth {
 }
 
 function formatMonthLabel(monthStart: Date): string {
-	const shortMonth = monthStart.toLocaleString(undefined, { month: "short" });
-	return `${shortMonth}/${monthStart.getFullYear()}`;
+	const shortMonth = monthStart.toLocaleString(undefined, { month: 'short', year: '2-digit' });
+	return shortMonth;
 }
 
 export default function getRollingMonths(

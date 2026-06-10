@@ -34,8 +34,8 @@ export default function OpenSection({
 				onPrevious={onPreviousMode}
 			/>
 			<div
-				className="bg"
-				style={{ flex: 1, flexDirection: "column", minHeight: 0 }}
+				className="bg oriented"
+				style={{ flex: 1, minHeight: 0 }}
 			>
 				{columns.map((column) => (
 					<OpenPipelineColumn
