@@ -136,13 +136,11 @@ export default function Sales() {
 			id="sales-root"
 			className="bg"
 			style={{
-				padding: "1px",
 				flexDirection: "column",
-				height: "calc(100% - 2px)",
 				overflow: "hidden",
 			}}
 		>
-			<Label style={{ width: "100%" }}>
+			<Label>
 				<h1>Vendas</h1>
 			</Label>
 			<div className="bg oriented" style={{ flex: 1, minHeight: 0 }}>

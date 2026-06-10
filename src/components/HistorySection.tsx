@@ -27,7 +27,7 @@ export default function HistorySection({
 			className="bg"
 			style={{ flex: 1, flexDirection: "column", minHeight: 0 }}
 		>
-			<Label style={{ width: "100%" }}>
+			<Label>
 				<h2>Histórico</h2>
 			</Label>
 			<div

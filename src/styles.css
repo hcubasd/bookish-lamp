@@ -1,7 +1,12 @@
+#sales-root {
+	height: calc(100% - 2px);
+}
+
 .bg {
 	display: flex;
 	gap: 1px;
 	min-width: 0;
+	padding: 1px;
 }
 
 .fg {
